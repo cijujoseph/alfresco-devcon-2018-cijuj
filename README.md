@@ -1,5 +1,5 @@
 
-# Repository to host my talk contents for Alfresco DevCon 2018
+# Source code associated with my talks at Alfresco DevCon 2018
 
 ## Lightning Talk - Voice Driven ADF Application
 * [voice-enabled-adf-app](https://github.com/cijujoseph/alfresco-devcon-2018-cijuj/tree/master/voice-enabled-adf-app)
