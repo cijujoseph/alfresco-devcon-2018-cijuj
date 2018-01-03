@@ -1,0 +1,15 @@
+
+<div>
+  <a *ngIf="appId" md-button href="" routerLink="/apps/{{appId}}/start-process">
+    Start new process
+  </a>
+<br><br><hr>
+</div>
+<h1>Tasks</h1>
+
+<adf-tasklist
+  [appId]="appId"
+  state="open"
+  assignment="assignee"
+  (rowClick)="onRowClick($event)">
+</adf-tasklist>

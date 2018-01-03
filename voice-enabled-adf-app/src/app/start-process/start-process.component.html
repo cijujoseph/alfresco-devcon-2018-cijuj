@@ -1,0 +1,22 @@
+
+<div class="custom-margin" *ngIf="isFormAvailable && isSpeechSupportedByBrowser">
+<mat-slide-toggle
+[checked]="checked"
+[color]="'accent'"
+(change)="onToggle()">
+{{voiceText}}
+</mat-slide-toggle>
+<mat-form-field class="left" *ngIf="checked"> 
+  <mat-select placeholder="Select Language" (change)=onLanguageChange($event)>
+    <mat-option *ngFor="let language of languages" [value]="language.value">
+      {{ language.viewValue }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+</div>
+<br>
+<adf-start-process
+  [appId]="appId"
+  (start)="onProcessStarted($event)"
+  (cancel)="onCancelStartProcess()">
+</adf-start-process>

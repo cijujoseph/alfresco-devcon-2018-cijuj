@@ -1,0 +1,15 @@
+<adf-task-details
+  [taskId]="taskId"
+  [showHeaderContent]="false"
+  [showFormTitle]="false"
+  (formContentClicked)="onFormContentClick($event)">
+</adf-task-details>
+
+<div *ngIf="fileShowed">
+  <adf-viewer
+      [(showViewer)]="fileShowed"
+      [blobFile]="content"
+      [displayName]="contentName"
+      [overlayMode]="true">
+  </adf-viewer>
+</div>
