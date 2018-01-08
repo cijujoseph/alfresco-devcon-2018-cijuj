@@ -11,9 +11,13 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
     <flow name="aps-salesforce-opportunity-api">
         <http:listener config-ref="HTTP_Listener_Configuration" path="Opportunity" allowedMethods="GET, POST, PUT" doc:name="HTTP"/>
+        <logger level="INFO" doc:name="Logger"/>
         <choice doc:name="Choice">
             <when expression="#[message.inboundProperties['http.method']=='POST']">
                 <flow-ref name="aps-salesforce-opportunity-api-post" doc:name="POST"/>
+            </when>
+            <when expression="#[message.inboundProperties['http.method']=='GET' &amp;&amp; message.inboundProperties['http.query.params'].size()==0]">
+                <flow-ref name="aps-salesforce-opportunity-api-get-list" doc:name="GET LIST"/>
             </when>
             <otherwise>
                 <flow-ref name="aps-salesforce-opportunity-api-get" doc:name="GET"/>
@@ -23,8 +27,27 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
     <sub-flow name="aps-salesforce-opportunity-api-post">
         <logger level="INFO" doc:name="Logger"/>
     </sub-flow>
+    <sub-flow name="aps-salesforce-opportunity-api-get-list">
+        <logger level="INFO" doc:name="Logger"/>
+        <sfdc:query-all config-ref="Salesforce__OAuth_2_0_Username_Password" query="dsql:SELECT AccountId,Description,ExpectedRevenue,Id,Name,StageName FROM Opportunity" doc:name="Salesforce"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="0f71cccd-2b67-4f83-b4f1-f8a6cc886279">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+payload map ((payload01 , indexOfPayload01) -> {
+	OpportunityName: payload01.Name,
+	Description: payload01.Description,
+	ExpectedRevenue: payload01.ExpectedRevenue,
+	Stage: payload01.StageName as :string,
+	Id: payload01.Id,
+	AccountNumber: payload01.AccountId
+})]]></dw:set-payload>
+        </dw:transform-message>
+        <logger level="INFO" doc:name="Logger"/>
+    </sub-flow>
     <sub-flow name="aps-salesforce-opportunity-api-get">
-        <sfdc:query-single config-ref="Salesforce__OAuth_2_0_Username_Password" query="dsql:SELECT AccountId,Description,ExpectedRevenue,Id,Name,StageName FROM Opportunity WHERE Name = '#[message.inboundProperties[&quot;http.query.params&quot;][&quot;OpportunityName&quot;]]' LIMIT 1" doc:name="Salesforce"/>
+        <sfdc:query-single config-ref="Salesforce__OAuth_2_0_Username_Password" query="dsql:SELECT AccountId,Description,ExpectedRevenue,Id,Name,StageName FROM Opportunity WHERE Id = '#[message.inboundProperties[&quot;http.query.params&quot;][&quot;Id&quot;]]' LIMIT 1" doc:name="Salesforce"/>
         <dw:transform-message doc:name="Transform Message" metadata:id="4bcb1766-a85e-45c5-b9fd-2450b88dcc02">
             <dw:input-payload mimeType="application/java"/>
             <dw:set-payload><![CDATA[%dw 1.0

@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "APS-Subscription"
+        }
+    },
+    "id": "a1c1d5aa-5e0a-404f-9c1e-20c9db3aa2fd",
+    "version": "5.2.0.0"
+}

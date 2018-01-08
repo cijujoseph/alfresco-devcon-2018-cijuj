@@ -1,0 +1,30 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "model": {
+                "connectorName": "Salesforce__OAuth_2_0_Username_Password",
+                "typeId": "Opportunity"
+            },
+            "isArray": false,
+            "dataType": "LIST",
+            "metaDataModelPropertiesManager": {
+                "properties": []
+            }
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "model": {
+                "connectorName": "#_custom_mule_metadata_type_#",
+                "typeId": "APS-Opty"
+            },
+            "isArray": false,
+            "dataType": "LIST",
+            "metaDataModelPropertiesManager": {
+                "properties": []
+            }
+        }
+    },
+    "id": "0f71cccd-2b67-4f83-b4f1-f8a6cc886279",
+    "version": "5.2.0.0"
+}

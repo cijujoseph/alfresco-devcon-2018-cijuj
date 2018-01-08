@@ -26,8 +26,7 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 	<sub-flow name="aps-zuora-account-api-get">
 		<logger level="INFO" doc:name="Logger" />
         <zuora:query config-ref="Zuora__Configuration" query="dsql:SELECT AccountNumber,AutoPay,BillCycleDay,Currency,Id,Name,PaymentTerm,Status FROM Account WHERE Id = '#[message.inboundProperties[&quot;http.query.params&quot;][&quot;Id&quot;]]' LIMIT 1" doc:name="Zuora"/>
-        <dw:transform-message doc:name="Transform Message" metadata:id="41f3c2a3-39cf-4d2d-9b15-5059f63d5bd0">
-            <dw:input-payload mimeType="application/json"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="a1c1d5aa-5e0a-404f-9c1e-20c9db3aa2fd">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
 ---
@@ -44,8 +43,8 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 	</sub-flow>
 
 	<sub-flow name="aps-zuora-account-api-post">
-        <dw:transform-message doc:name="Transform Message" metadata:id="133808df-723e-4c42-a5b6-268da3c15fe0">
-            <dw:input-payload doc:sample="/Users/cijujoseph/Alfresco/DevCon/MyTalk/mule-aps/subscription-sample.json" mimeType="application/json"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="55545c47-10f8-418e-b2b8-fd7d3ed29d06">
+            <dw:input-payload mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/xml
 %namespace ns0 http://api.zuora.com/
