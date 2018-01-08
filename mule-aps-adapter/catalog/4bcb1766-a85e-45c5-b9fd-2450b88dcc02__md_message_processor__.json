@@ -1,0 +1,16 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "Salesforce__OAuth_2_0_Username_Password",
+            "typeId": "Opportunity"
+        }
+    },
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "APS-Opty"
+        }
+    },
+    "id": "4bcb1766-a85e-45c5-b9fd-2450b88dcc02",
+    "version": "5.2.0.0"
+}

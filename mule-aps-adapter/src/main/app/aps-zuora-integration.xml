@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:zuora="http://www.mulesoft.org/schema/mule/zuora" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/zuora http://www.mulesoft.org/schema/mule/zuora/current/mule-zuora.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
+	<flow name="aps-zuora-integrationFlow">
+		<http:listener config-ref="HTTP_Listener_Configuration"
+			path="SubscriptionAccount" allowedMethods="GET, POST, PUT" doc:name="HTTP" />
+		<choice doc:name="Choice">
+			<when expression="#[message.inboundProperties['http.method']=='POST']">
+				<flow-ref name="aps-zuora-account-api-post"
+					doc:name="POST" />
+			</when>
+			<otherwise>
+				<flow-ref name="aps-zuora-account-api-get"
+					doc:name="GET" />
+			</otherwise>
+		</choice>
+	</flow>
+
+	<sub-flow name="aps-zuora-account-api-get">
+		<logger level="INFO" doc:name="Logger" />
+        <zuora:query config-ref="Zuora__Configuration" query="dsql:SELECT AccountNumber,AutoPay,BillCycleDay,Currency,Id,Name,PaymentTerm,Status FROM Account WHERE Id = '#[message.inboundProperties[&quot;http.query.params&quot;][&quot;Id&quot;]]' LIMIT 1" doc:name="Zuora"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="41f3c2a3-39cf-4d2d-9b15-5059f63d5bd0">
+            <dw:input-payload mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	Status: payload[0].Status,
+	Currency: payload[0].Currency,
+	BillCycleDay: payload[0].BillCycleDay,
+	Id: payload[0].Id,
+	PaymentTerm: payload[0].PaymentTerm,
+	AccountNumber: payload[0].AccountNumber,
+	Name: payload[0].Name
+}]]></dw:set-payload>
+        </dw:transform-message>
+	</sub-flow>
+
+	<sub-flow name="aps-zuora-account-api-post">
+        <dw:transform-message doc:name="Transform Message" metadata:id="133808df-723e-4c42-a5b6-268da3c15fe0">
+            <dw:input-payload doc:sample="/Users/cijujoseph/Alfresco/DevCon/MyTalk/mule-aps/subscription-sample.json" mimeType="application/json"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/xml
+%namespace ns0 http://api.zuora.com/
+%namespace ns1 http://object.api.zuora.com/
+---
+{
+	ns0#create: {
+		ns0#zObjects: {
+			ns1#BillCycleDay: payload.BillCycleDay,
+			ns1#Currency: payload.Currency,
+			ns1#Name: payload.Name,
+			ns1#PaymentTerm: payload.PaymentTerm,
+			ns1#Status: payload.Status
+		}
+	}
+}]]></dw:set-payload>
+        </dw:transform-message>
+		<logger level="INFO" doc:name="Logger" />
+        <zuora:invoke-soap-service config-ref="Zuora__Configuration" soapMetadataKey="ZuoraService-Soap-http://api.zuora.com/||create||Account-zObject" doc:name="Zuora"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="cfbc3f11-cd7c-451c-8aef-162983658987">
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+%namespace ns0 http://api.zuora.com/
+---
+{
+	Id: payload.ns0#createResponse.ns0#result[0].ns0#Id
+}]]></dw:set-payload>
+        </dw:transform-message>
+	</sub-flow>
+</mule>

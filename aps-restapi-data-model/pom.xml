@@ -40,27 +40,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<configuration>
-							<descriptors>
-								<descriptor>src/main/resources/assembly/assembly.xml</descriptor>
-							</descriptors>
-							<!-- if you have special character issues, this is an option to play 
-								with. not required in most cases -->
-							<!-- <archiverConfig> <encoding>UTF-8</encoding> </archiverConfig> -->
-						</configuration>
-						<id>create-distribution</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 	<repositories>

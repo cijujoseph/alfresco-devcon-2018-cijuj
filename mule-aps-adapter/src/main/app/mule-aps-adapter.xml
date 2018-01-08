@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:zuora="http://www.mulesoft.org/schema/mule/zuora" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/zuora http://www.mulesoft.org/schema/mule/zuora/current/mule-zuora.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd">
+	
+	<context:property-placeholder location="mule-aps-adapter.properties" />
+	
+	<http:listener-config name="HTTP_Listener_Configuration"
+		host="${api.host}" port="${api.port}" basePath="${api.baseBath}" doc:name="HTTP Listener Configuration" />
+	
+	<zuora:config name="Zuora__Configuration" username="${zuora.username}"
+		password="${zuora.password}" wsdlLocation="zuora.a.88.0.wsdl"
+		doc:name="Zuora: Configuration" />
+	
+	<sfdc:config-oauth-user-pass name="Salesforce__OAuth_2_0_Username_Password"
+		consumerKey="${sfdc.consumerKey}" consumerSecret="${sfdc.consumerSecret}"
+		username="${sfdc.username}" password="${sfdc.password}" securityToken="${sfdc.securityToken}"
+		doc:name="Salesforce: OAuth 2.0 Username-Password" />
+</mule>

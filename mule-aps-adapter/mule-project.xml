@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-project xmlns="http://www.mulesoft.com/tooling/project" runtimeId="org.mule.tooling.server.3.9.0.ee" schemaVersion="5.3.0.0">
+    <name>mule-aps-adapter</name>
+    <description></description>
+    <muleExtension name="Zuora" qualifier="org.mule.tooling.ui.contribution.zuora.3.7.0"/>
+    <muleExtension name="Salesforce" qualifier="org.mule.tooling.ui.contribution.sfdc.3.5.0"/>
+</mule-project>

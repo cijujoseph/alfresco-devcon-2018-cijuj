@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {},
+    "outputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "#_custom_mule_metadata_type_#",
+            "typeId": "APS-put-post-response"
+        }
+    },
+    "id": "cfbc3f11-cd7c-451c-8aef-162983658987",
+    "version": "5.2.0.0"
+}
