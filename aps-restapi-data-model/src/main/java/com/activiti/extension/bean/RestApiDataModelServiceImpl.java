@@ -34,8 +34,13 @@ public class RestApiDataModelServiceImpl implements AlfrescoCustomDataModelServi
 			Object fieldValue) {
 
 		try {
-			JsonNode responseNode = customRestClient.getEntity(entityDefinition.getName(), fieldName, (String) fieldValue);
-			return (ObjectNode) objectMapper.readTree(objectMapper.writeValueAsString(responseNode));
+			JsonNode responseNode = customRestClient.getEntityViaQueryParams(entityDefinition.getName(), fieldName, (String) fieldValue);
+			if(responseNode.size()>0){
+				return (ObjectNode) objectMapper.readTree(objectMapper.writeValueAsString(responseNode.get(0)));
+			} else {
+				return null;
+			}
+			
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -53,7 +58,7 @@ public class RestApiDataModelServiceImpl implements AlfrescoCustomDataModelServi
 		if (keyValue != null) {
 			try {
 
-				JsonNode responseNode = customRestClient.getEntity(entityDefinition.getName(), idAttribute, (String) keyValue);
+				JsonNode responseNode = customRestClient.getEntityDetails(entityDefinition.getName(), idAttribute, (String) keyValue);
 				ObjectNode dataNode = (ObjectNode) objectMapper.readTree(objectMapper.writeValueAsString(responseNode));
 
 				VariableEntityWrapper variableEntityWrapper = new VariableEntityWrapper(variableName,

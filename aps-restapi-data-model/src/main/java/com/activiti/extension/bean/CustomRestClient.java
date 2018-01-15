@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,10 +38,18 @@ public class CustomRestClient {
 	}
 	
 
-	public JsonNode getEntity(String entityName, String keyName, String keyValue) throws JsonProcessingException {
+	public JsonNode getEntityViaQueryParams(String entityName, String keyName, String keyValue) throws JsonProcessingException {
 
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(API_BASE_URL + entityName)
 				.queryParam(keyName, keyValue);
+		
+		return restTemplate.getForObject(uriBuilder.build().toUri(), JsonNode.class);
+
+	}
+	
+	public JsonNode getEntityDetails(String entityName, String keyName, String keyValue) throws JsonProcessingException {
+
+		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(API_BASE_URL + entityName + "/" + keyValue);
 		
 		return restTemplate.getForObject(uriBuilder.build().toUri(), JsonNode.class);
 
@@ -48,8 +58,9 @@ public class CustomRestClient {
 	public JsonNode createEntity(String entityName, Map<String, Object> requestBody) throws JsonProcessingException {
 
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(API_BASE_URL + entityName);
-		HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(requestBody));
-
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(requestBody), headers);
 		return restTemplate.postForObject(uriBuilder.build().toUri(), request, JsonNode.class);
 	}
 
@@ -57,7 +68,9 @@ public class CustomRestClient {
 			throws JsonProcessingException {
 
 		UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromUriString(API_BASE_URL + entityName);
-		HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(requestBody));
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> request = new HttpEntity<String>(objectMapper.writeValueAsString(requestBody), headers);
 
 		restTemplate.put(uriBuilder.build().toUri(), request);
 	}
