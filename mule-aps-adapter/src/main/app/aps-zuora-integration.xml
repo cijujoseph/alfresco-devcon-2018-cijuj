@@ -8,24 +8,10 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/zuora http://www.mulesoft.org/schema/mule/zuora/current/mule-zuora.xsd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
-	<flow name="aps-zuora-integrationFlow">
-		<http:listener config-ref="HTTP_Listener_Configuration"
-			path="SubscriptionAccount" allowedMethods="GET, POST, PUT" doc:name="HTTP" />
-		<choice doc:name="Choice">
-			<when expression="#[message.inboundProperties['http.method']=='POST']">
-				<flow-ref name="aps-zuora-account-api-post"
-					doc:name="POST" />
-			</when>
-			<otherwise>
-				<flow-ref name="aps-zuora-account-api-get"
-					doc:name="GET" />
-			</otherwise>
-		</choice>
-	</flow>
-
-	<sub-flow name="aps-zuora-account-api-get">
+	
+	<sub-flow name="aps-zuora-get-account-details">
 		<logger level="INFO" doc:name="Logger" />
-        <zuora:query config-ref="Zuora__Configuration" query="dsql:SELECT AccountNumber,AutoPay,BillCycleDay,Currency,Id,Name,PaymentTerm,Status FROM Account WHERE Id = '#[message.inboundProperties[&quot;http.query.params&quot;][&quot;Id&quot;]]' LIMIT 1" doc:name="Zuora"/>
+        <zuora:query config-ref="Zuora__Configuration" query="dsql:SELECT AccountNumber,AutoPay,BillCycleDay,Currency,Id,Name,PaymentTerm,Status FROM Account WHERE Id = '#[flowVars[&quot;SubscriptionAccountId&quot;]]' LIMIT 1" doc:name="Zuora"/>
         <dw:transform-message doc:name="Transform Message" metadata:id="a1c1d5aa-5e0a-404f-9c1e-20c9db3aa2fd">
             <dw:set-payload><![CDATA[%dw 1.0
 %output application/json
@@ -42,11 +28,12 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
         </dw:transform-message>
 	</sub-flow>
 
-	<sub-flow name="aps-zuora-account-api-post">
+	<sub-flow name="aps-zuora-create-account">
+        <logger level="INFO" doc:name="Logger"/>
         <dw:transform-message doc:name="Transform Message" metadata:id="55545c47-10f8-418e-b2b8-fd7d3ed29d06">
             <dw:input-payload mimeType="application/json"/>
             <dw:set-payload><![CDATA[%dw 1.0
-%output application/xml
+%output application/json
 %namespace ns0 http://api.zuora.com/
 %namespace ns1 http://object.api.zuora.com/
 ---

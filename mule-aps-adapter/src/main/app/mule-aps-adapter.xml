@@ -14,9 +14,6 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
 	
 	<context:property-placeholder location="mule-aps-adapter.properties" />
 	
-	<http:listener-config name="HTTP_Listener_Configuration"
-		host="${api.host}" port="${api.port}" basePath="${api.baseBath}" doc:name="HTTP Listener Configuration" />
-	
 	<zuora:config name="Zuora__Configuration" username="${zuora.username}"
 		password="${zuora.password}" wsdlLocation="zuora.a.88.0.wsdl"
 		doc:name="Zuora: Configuration" />

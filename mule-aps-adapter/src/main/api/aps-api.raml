@@ -1,0 +1,83 @@
+#%RAML 0.8
+title: APS APIs
+
+/Opportunity:
+  GET:
+    queryParameters: Id
+    responses: 
+      200:
+        body: 
+          application/json: 
+            example: |
+              [{"OpportunityName":"string","Description":"string","ExpectedRevenue":"string","Stage":"string","Id":"string","AccountNumber":"string"}, {"OpportunityName":"string","Description":"string","ExpectedRevenue":"string","Stage":"string","Id":"string","AccountNumber":"string"}]
+  POST:
+    body:
+      application/json: 
+        example: |
+          {"OpportunityName":"string","Description":"string","ExpectedRevenue":"string","Stage":"string","Id":"string","AccountNumber":"string"}
+    responses: 
+      200:
+        body: 
+          application/json: 
+            example: |
+              {"Id":"string"}
+  /{OpportunityId}:
+    GET:
+      responses: 
+        200:
+          body: 
+            application/json: 
+              example: |
+                {"OpportunityName":"string","Description":"string","ExpectedRevenue":"string","Stage":"string","Id":"string","AccountNumber":"string"}
+    PUT:
+      body:
+        application/json: 
+          example: |
+            {"OpportunityName":"string","Description":"string","ExpectedRevenue":"string","Stage":"string","Id":"string","AccountNumber":"string"}
+      responses: 
+        200:
+          body: 
+            application/json: 
+              example: |
+                {"Id":"string"}
+/SubscriptionAccount:
+  GET:
+    queryParameters: Id
+    responses: 
+      200:
+        body: 
+          application/json: 
+            example: |
+              [{"Status":"string","Currency":"string","BillCycleDay":"string","Id":"string","PaymentTerm":"string","AccountNumber":"string","Name":"string"}, {"Status":"string","Currency":"string","BillCycleDay":"string","Id":"string","PaymentTerm":"string","AccountNumber":"string","Name":"string"}]
+  POST:
+    body:
+      application/json: 
+        example: |
+          {"Status":"string","Currency":"string","BillCycleDay":"string","Id":"string","PaymentTerm":"string","AccountNumber":"string","Name":"string"}
+    responses: 
+      200:
+        body: 
+          application/json: 
+            example: |
+              {"Id":"string"}
+  /{SubscriptionAccountId}:
+    GET:
+      responses: 
+        200:
+          body: 
+            application/json: 
+              example: |
+                {"Status":"string","Currency":"string","BillCycleDay":"string","Id":"string","PaymentTerm":"string","AccountNumber":"string","Name":"string"}
+    PUT:
+      body:
+        application/json: 
+          example: |
+            {"Status":"string","Currency":"string","BillCycleDay":"string","Id":"string","PaymentTerm":"string","AccountNumber":"string","Name":"string"}
+      responses: 
+        200:
+          body: 
+            application/json: 
+              example: |
+                {"Id":"string"}
+      
+     
