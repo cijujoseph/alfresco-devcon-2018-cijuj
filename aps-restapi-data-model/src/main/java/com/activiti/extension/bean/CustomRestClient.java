@@ -29,7 +29,7 @@ public class CustomRestClient {
 	@Autowired
 	protected ObjectMapper objectMapper;
 
-	public static final String API_BASE_URL = "http://0.0.0.0:8088/api/datamodels/";
+	public static final String API_BASE_URL = "http://0.0.0.0:8081/api/datamodels/";
 	
 	@Bean
 	public RestTemplate restTemplate(RestTemplateBuilder builder) {
