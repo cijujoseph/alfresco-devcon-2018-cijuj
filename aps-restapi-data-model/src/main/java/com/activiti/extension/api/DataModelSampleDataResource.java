@@ -38,7 +38,7 @@ public class DataModelSampleDataResource {
 				if(attribute.getType().equals("number")){
 					map.put(attribute.getName(), 100);
 				} else {
-					map.put(attribute.getName(), "string");
+					map.put(attribute.getName(), attribute.getName()+" - sample");
 				}
 			}
 			return map;
