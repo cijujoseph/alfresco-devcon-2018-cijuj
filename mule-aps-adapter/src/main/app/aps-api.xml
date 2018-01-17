@@ -27,7 +27,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
         <set-payload value="[{&quot;Status&quot;:&quot;string&quot;,&quot;Currency&quot;:&quot;string&quot;,&quot;BillCycleDay&quot;:&quot;string&quot;,&quot;Id&quot;:&quot;string&quot;,&quot;PaymentTerm&quot;:&quot;string&quot;,&quot;AccountNumber&quot;:&quot;string&quot;,&quot;Name&quot;:&quot;string&quot;}, {&quot;Status&quot;:&quot;string&quot;,&quot;Currency&quot;:&quot;string&quot;,&quot;BillCycleDay&quot;:&quot;string&quot;,&quot;Id&quot;:&quot;string&quot;,&quot;PaymentTerm&quot;:&quot;string&quot;,&quot;AccountNumber&quot;:&quot;string&quot;,&quot;Name&quot;:&quot;string&quot;}]" doc:name="Set Payload"/>
     </flow>
     <flow name="get:/Opportunity/{OpportunityId}:aps-api-config">
-        <set-payload value="{&quot;OpportunityName&quot;:&quot;string&quot;,&quot;Description&quot;:&quot;string&quot;,&quot;ExpectedRevenue&quot;:&quot;string&quot;,&quot;Stage&quot;:&quot;string&quot;,&quot;Id&quot;:&quot;string&quot;,&quot;AccountNumber&quot;:&quot;string&quot;}" doc:name="Set Payload"/>
+        <flow-ref name="aps-salesforce-get-opportunity-details" doc:name="Flow Reference"/>
     </flow>
     <flow name="get:/SubscriptionAccount/{SubscriptionAccountId}:aps-api-config">
         <flow-ref name="aps-zuora-get-account-details" doc:name="Flow Reference"/>

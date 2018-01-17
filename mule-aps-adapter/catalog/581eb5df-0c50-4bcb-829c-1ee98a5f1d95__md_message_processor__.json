@@ -1,0 +1,11 @@
+{
+    "inputMessageMetadata": {
+        "messagePayload": {
+            "connectorName": "Salesforce__OAuth_2_0_Username_Password",
+            "typeId": "Opportunity"
+        }
+    },
+    "outputMessageMetadata": {},
+    "id": "581eb5df-0c50-4bcb-829c-1ee98a5f1d95",
+    "version": "5.2.0.0"
+}

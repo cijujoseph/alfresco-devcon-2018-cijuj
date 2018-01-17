@@ -11,7 +11,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd">
     <sub-flow name="aps-salesforce-get-opportunity">
         <logger level="INFO" doc:name="Logger"/>
-        <sfdc:query-all config-ref="Salesforce__OAuth_2_0_Username_Password" query="dsql:SELECT AccountId,Description,ExpectedRevenue,Id,Name,StageName FROM Opportunity #[message.inboundProperties['http.query.params'].size()&gt;0 ? 'WHERE' : ''] #[message.inboundProperties['http.query.params']['Id']!=null ? 'Id = \''+ message.inboundProperties['http.query.params']['Id']+'\'' : '']" doc:name="Salesforce"/>
+        <sfdc:query-all config-ref="Salesforce__OAuth_2_0_Username_Password" query="dsql:SELECT AccountId,Description,ExpectedRevenue,Id,Name,StageName FROM Opportunity" doc:name="Salesforce"/>
         <dw:transform-message doc:name="Transform Message" metadata:id="0f71cccd-2b67-4f83-b4f1-f8a6cc886279">
             <dw:input-payload mimeType="application/java"/>
             <dw:set-payload><![CDATA[%dw 1.0
@@ -27,5 +27,24 @@ payload map ((payload01 , indexOfPayload01) -> {
 })]]></dw:set-payload>
         </dw:transform-message>
         <logger level="INFO" doc:name="Logger"/>
+    </sub-flow>
+    
+    <sub-flow name="aps-salesforce-get-opportunity-details">
+        <logger level="INFO" doc:name="Logger"/>
+        <sfdc:query-single config-ref="Salesforce__OAuth_2_0_Username_Password" query="dsql:SELECT AccountId,Description,ExpectedRevenue,Id,Name,StageName FROM Opportunity WHERE Id = '#[flowVars[&quot;OpportunityId&quot;]]'" doc:name="Salesforce"/>
+        <dw:transform-message doc:name="Transform Message" metadata:id="581eb5df-0c50-4bcb-829c-1ee98a5f1d95">
+            <dw:input-payload mimeType="application/java"/>
+            <dw:set-payload><![CDATA[%dw 1.0
+%output application/json
+---
+{
+	OpportunityName: payload.Name,
+	Description: payload.Description,
+	ExpectedRevenue: payload.ExpectedRevenue,
+	Stage: payload.StageName as :string,
+	Id: payload.Id,
+	AccountNumber: payload.AccountId
+}]]></dw:set-payload>
+        </dw:transform-message>
     </sub-flow>
 </mule>

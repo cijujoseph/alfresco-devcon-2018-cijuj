@@ -30,10 +30,9 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
 
 	<sub-flow name="aps-zuora-create-account">
         <logger level="INFO" doc:name="Logger"/>
-        <dw:transform-message doc:name="Transform Message" metadata:id="55545c47-10f8-418e-b2b8-fd7d3ed29d06">
-            <dw:input-payload mimeType="application/json"/>
+        <dw:transform-message doc:name="Transform Message">
             <dw:set-payload><![CDATA[%dw 1.0
-%output application/json
+%output application/xml
 %namespace ns0 http://api.zuora.com/
 %namespace ns1 http://object.api.zuora.com/
 ---
