@@ -4,6 +4,7 @@ Source code associated with my talks at Alfresco DevCon 2018
 ## Lightning Talk - Voice Driven ADF Application
 * [Voice Enabled ADF Application](https://github.com/cijujoseph/alfresco-devcon-2018-cijuj/tree/master/voice-enabled-adf-app)
 * [Slides](https://www.slideshare.net/CijuJoseph/voice-driven-adf-application-lightning-talk)
+* [Recorded Video of the Talk](https://www.youtube.com/watch?v=SkCtl_Ru4Vw)
 ## 30 Minute Talk - Low-Code Integrations in APS using MuleSoft
 * [Alfresco Process Services Components](https://github.com/cijujoseph/alfresco-devcon-2018-cijuj/tree/master/aps-restapi-data-model)
 * [MuleSoft Components](https://github.com/cijujoseph/alfresco-devcon-2018-cijuj/tree/master/mule-aps-adapter)
