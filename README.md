@@ -9,4 +9,5 @@ Source code associated with my talks at Alfresco DevCon 2018
 * [Alfresco Process Services Components](https://github.com/cijujoseph/alfresco-devcon-2018-cijuj/tree/master/aps-restapi-data-model)
 * [MuleSoft Components](https://github.com/cijujoseph/alfresco-devcon-2018-cijuj/tree/master/mule-aps-adapter)
 * [Slides](https://www.slideshare.net/CijuJoseph/lowcode-integrations-in-alfresco-process-services-using-mulesoft)
+* [Recorded Video of the Talk](https://www.youtube.com/watch?v=sRc8YdTDrMk)
 
